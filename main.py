@@ -1,12 +1,12 @@
 from src.maze.config import get_maze_config
 from src.maze.game import MazeGame
-from src.maze.models.maze import Maze
+from src.maze.models.maze import MazeInfo
 from src.maze.models.position import Position
 
 
 def main() -> None:
     maze_config = get_maze_config()
-    maze = Maze.generate_maze(
+    maze = MazeInfo.generate_maze(
         width=maze_config.width,
         height=maze_config.height,
         wall_count=maze_config.walls,

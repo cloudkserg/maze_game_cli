@@ -1,12 +1,12 @@
 from typing import List, Optional
 
-from src.maze.models.maze import Maze
+from src.maze.models.maze import MazeInfo
 from src.maze.models.position import Position
 
 DEFAULT_AMOUNT_OF_STEPS = 1
 
 class MazeGame:
-    def __init__(self, maze: Maze) -> None:
+    def __init__(self, maze: MazeInfo) -> None:
         self.maze = maze
         self.player_position = Position(x=0, y=0)  # Starting position of the player
         self.steps_taken = 0  # Track the number of steps
