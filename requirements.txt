@@ -4,3 +4,4 @@ mypy
 uv
 python-dotenv
 flask
+peewee

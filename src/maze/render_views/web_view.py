@@ -1,13 +1,18 @@
+from abc import ABC
 from typing import Union
 from flask import Flask, request, render_template_string
 
+from src.maze.db.score_collection import HighScoreList
+from src.maze.engine.maze_engine import MazeEngine
 from src.maze.models.maze import Maze
 from src.maze.models.position import Position
 from src.maze.engine.player import Player
 from src.maze.engine.enemy import Enemy
 from src.maze.models.maze_state import MazeState
+from src.maze.render_views.base_view import BaseView
 
-class WebView:
+
+class WebView(BaseView, ABC):
     """
     A web view for rendering the maze and interacting with the player through a web interface.
 
@@ -16,29 +21,29 @@ class WebView:
         player (Player): The player instance to be displayed in the maze.
         enemy (Enemy): The enemy instance to be displayed in the maze.
     """
-    def __init__(self, maze: Maze, player: Player, enemy: Enemy) -> None:
+    def __init__(self, maze_engine: MazeEngine) -> None:
         """
-        Initialize the web view with the maze, player, and enemy.
+        Initialize the CLI view with the maze, player, and enemy.
 
         Args:
-            maze (Maze): The maze instance.
-            player (Player): The player instance.
-            enemy (Enemy): The enemy instance.
+            maze_engine (MazeEngine): The maze Engine instance.
         """
-        self.maze = maze
-        self.player = player
-        self.enemy = enemy
+        self.maze = maze_engine.maze
+        self.player = maze_engine.player
+        self.enemy = maze_engine.enemy
 
-    def render_maze(self) -> str:
+    def render_maze(self, additional_context: str) -> str:
         """
         Render the maze to an HTML template.
 
         Returns:
+            additional_context (str): The HTML additional context
             str: The HTML representation of the maze, including a form for user commands and the maze grid.
         """
         return render_template_string('''
             <html>
                 <body>
+                    {{ additional_context|safe}}
                     <form method="post">
                         <input type="text" name="command" placeholder="Enter move(s) (e.g., 'down 2, left 3') or 'quit' to exit">
                         <input type="submit" value="Submit">
@@ -46,7 +51,7 @@ class WebView:
                     {{ maze_html|safe }}
                 </body>
             </html>
-        ''', maze_html=self.render_maze_html())
+        ''', maze_html=self.render_maze_html(), additional_context=additional_context)
 
     def render_maze_html(self) -> str:
         """
@@ -110,6 +115,21 @@ class WebView:
         else:
             return f"<p>Your current position: x:{self.player.position.x} y:{self.player.position.y}</p>"
 
+    def render_high_scores(self, top_scores: HighScoreList) -> str:
+        """
+        Generate HTML for displaying the high scores.
+
+        Args:
+            top_scores (HighScoreList): The list of top scores to be displayed.
+
+        Returns:
+            str: The HTML representation of the high scores.
+        """
+        html = "<ul>"
+        for name, steps, date in top_scores:
+            html += f"<li>Name: {name}, Steps: {steps}, Date: {date}</li>"
+        html += "</ul>"
+        return html
 
     def render_quit(self) -> str:
         """

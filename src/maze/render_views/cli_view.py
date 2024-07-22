@@ -1,12 +1,17 @@
+from abc import ABC
 from typing import Union
 
+from src.maze.db.score_collection import HighScoreList
 from src.maze.engine.enemy import Enemy
+from src.maze.engine.maze_engine import MazeEngine
 from src.maze.engine.player import Player
 from src.maze.models.maze import Maze
 from src.maze.models.maze_state import MazeState
 from src.maze.models.position import Position
+from src.maze.render_views.base_view import BaseView
 
-class CliView:
+
+class CliView(BaseView, ABC):
     """
     A command-line interface (CLI) view for rendering the maze and interacting with the player.
 
@@ -16,20 +21,18 @@ class CliView:
         enemy (Enemy): The enemy instance to be displayed in the maze.
     """
 
-    def __init__(self, maze: Maze, player: Player, enemy: Enemy) -> None:
+    def __init__(self, maze_engine: MazeEngine) -> None:
         """
         Initialize the CLI view with the maze, player, and enemy.
 
         Args:
-            maze (Maze): The maze instance.
-            player (Player): The player instance.
-            enemy (Enemy): The enemy instance.
+            maze_engine (MazeEngine): The maze Engine instance.
         """
-        self.maze = maze
-        self.player = player
-        self.enemy = enemy
+        self.maze = maze_engine.maze
+        self.player = maze_engine.player
+        self.enemy = maze_engine.enemy
 
-    def render_maze(self) -> None:
+    def render_maze(self, additional_context: str) -> None:
         """
         Render the maze to the CLI, displaying the current state including player, enemy, walls, and the goal.
 
@@ -38,6 +41,7 @@ class CliView:
             - The distance from the player to the goal.
             - The maze grid with symbols representing player ('P'), enemy ('E'), walls ('#'), goal ('W'), and empty spaces ('.').
         """
+        print(additional_context)
         distance_to_goal = self.maze.calculate_distance_to_goal(self.player.position)
         print(f"Steps taken: {self.player.steps_taken}")
         print(f"Distance to the goal: {distance_to_goal} cells")
@@ -66,6 +70,12 @@ class CliView:
         if command == 'quit':
             return False
         return command
+
+    def render_high_scores(self, top_scores: HighScoreList) -> str:
+        context = ''
+        for name, steps, date in top_scores:
+            context += f"Name: {name}, Steps: {steps}, Date: {date}\n"
+        return context
 
     def render_state(self, maze_state: MazeState) -> None:
         """
@@ -97,3 +107,12 @@ class CliView:
             - A quit message.
         """
         print("You quit.")
+
+    def ask_name(self) -> str:
+        """
+        Prompt the user to enter a name for saving his score.
+
+        Returns:
+            str: name
+        """
+        return input("Enter name for saving score: ")
