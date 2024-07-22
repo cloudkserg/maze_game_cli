@@ -3,3 +3,4 @@ pydantic_settings
 mypy
 uv
 python-dotenv
+flask

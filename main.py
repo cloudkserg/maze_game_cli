@@ -14,19 +14,22 @@ def main() -> None:
         end=Position(x=maze_config.exit_point[0], y=maze_config.exit_point[1])
     ).generate_maze()
 
-    maze_render = CliView(maze_engine.maze, maze_engine.player, maze_engine.enemy)
+    view = CliView(maze_engine.maze, maze_engine.player, maze_engine.enemy)
 
     while True:
-        maze_render.render_maze()
-        command = maze_render.ask_command()
+        view.render_maze()
+        command = view.ask_command()
         if not command:
-            maze_render.render_quit()
+            view.render_quit()
             return
 
         maze_engine.process_moves(command)
-        maze_render.render_state(maze_engine.maze_state)
         if maze_engine.maze_state.isStop():
+            view.render_state(maze_engine.maze_state)
             return
+
+        view.render_state(maze_engine.maze_state)
+
 
 if __name__ == "__main__":
     main()

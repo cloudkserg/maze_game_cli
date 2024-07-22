@@ -16,11 +16,11 @@ class MazeEngine:
         self.enemy = enemy
         self.maze_state = MazeState(is_win = False, is_wall=False, is_enemy = False)
 
-    def process_moves(self, command: str):
+    def process_moves(self, command: str) -> None:
         direction, steps = self.parse_command(command.strip())
         self.player.move(direction, steps, self.maze)
         self.enemy.move_randomly(self.maze)
-        self.check_game_state()
+        self.update_game_state()
 
     def parse_command(self, command: str) -> Tuple[str, int]:
         parts = command.split()
@@ -28,7 +28,7 @@ class MazeEngine:
         steps = int(parts[1]) if len(parts) > 1 else 1
         return direction, steps
 
-    def check_game_state(self):
+    def update_game_state(self):
         if self.player.position == self.maze.win_point:
             self.maze_state.is_win = True
         elif self.player.position == self.enemy.position:

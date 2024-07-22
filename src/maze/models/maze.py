@@ -5,7 +5,7 @@ from pydantic import BaseModel, Field, conint
 class Maze(BaseModel):
     width: conint(ge=1)
     height: conint(ge=1)
-    walls: List[Position]
+    walls: List[Position] = Field(default_factory=int)
     win_point: Position
     maze_cells: List[List[int]] = Field(default_factory=list)
 
