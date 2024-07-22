@@ -29,7 +29,7 @@ class MazeEngine:
         return direction, steps
 
     def check_game_state(self):
-        if self.player.position == self.maze.exit_point:
+        if self.player.position == self.maze.win_point:
             self.maze_state.is_win = True
         elif self.player.position == self.enemy.position:
             self.maze_state.is_enemy = True

@@ -27,7 +27,7 @@ class CliView:
                     print('#', end=' ')
                 elif current_pos == self.enemy.position:
                     print('E', end = ' ')
-                elif current_pos == self.maze.exit_point:
+                elif current_pos == self.maze.win_point:
                     print('W', end=' ')
                 else:
                     print('.', end=' ')

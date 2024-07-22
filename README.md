@@ -63,9 +63,11 @@ pip install uv
    Create a `.env` file in the root directory with the following content (can copy from .env.local):
 
    ```
-   MAZE_WIDTH=5
-   MAZE_HEIGHT=5
-   MAZE_WALLS=2,1;2,2;2,3
+MAZE_WIDTH=10
+MAZE_HEIGHT=10
+MAZE_WALLS=20
+MAZE_EXIT_X=9
+MAZE_EXIT_Y=9
    ```
 
 5. **Run the Game**
@@ -83,19 +85,26 @@ pip install uv
 Here's an example of how the game will display the maze:
 
 ```
-. . . . .
+P . . . .
 . . . . .
 . # # # .
-. . . . .
-. . . . .
+. . . E .
+. . . . W
 ```
 
-The `P` represents the player's position, and `#` represents walls. You can move the player with the following commands:
+The `P` represents the player's position, `E` represents enemy,`#` represents walls and 'W' represents exit point. You can move the player with the following commands:
 
 - `up`
 - `down`
 - `left`
 - `right`
+- 
+Or
+
+- `up 3` - move up to 3 steps
+- `down 5` - move down to 5 steps
+
+If you find any obstacle(enemy, limit of maze, wall) you would stop.
 
 ## Contributing
 

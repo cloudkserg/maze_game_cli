@@ -6,7 +6,7 @@ class Maze(BaseModel):
     width: conint(ge=1)
     height: conint(ge=1)
     walls: List[Position]
-    exit_point: Position
+    win_point: Position
     maze_cells: List[List[int]] = Field(default_factory=list)
 
     def __init__(self, **data):
@@ -29,4 +29,4 @@ class Maze(BaseModel):
         return [Position(x=x, y=y) for x in range(self.width) for y in range(self.height) if self.maze_cells[x][y] == 1]
 
     def calculate_distance_to_exit(self, position: Position):
-        return abs(position.x - self.exit_point.x) + abs(position.y - self.exit_point.y)
+        return abs(position.x - self.win_point.x) + abs(position.y - self.win_point.y)
