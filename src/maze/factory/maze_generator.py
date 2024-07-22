@@ -8,7 +8,27 @@ from src.maze.models.position import Position
 
 
 class MazeGenerator:
+    """
+    Generates a maze with a specified configuration.
+
+    Attributes:
+        width (int): The width of the maze.
+        height (int): The height of the maze.
+        max_walls (int): The maximum number of walls to be placed in the maze.
+        start (Position): The starting position of the maze.
+        end (Position): The ending position of the maze.
+    """
     def __init__(self, width: int, height: int, max_walls: int, start: 'Position', end: 'Position'):
+        """
+        Initialize the maze generator with maze dimensions, wall count, and start/end positions.
+
+        Args:
+            width (int): The width of the maze.
+            height (int): The height of the maze.
+            max_walls (int): The maximum number of walls to be generated.
+            start (Position): The starting position for the maze.
+            end (Position): The ending position for the maze.
+        """
         self.width = width
         self.height = height
         self.max_walls = max_walls
@@ -16,6 +36,12 @@ class MazeGenerator:
         self.end = end
 
     def generate_maze(self):
+        """
+        Generate a maze with a path from start to end, add walls, and initialize game entities.
+
+        Returns:
+            MazeEngine: The maze engine containing the generated maze, player, and enemy.
+        """
         maze = Maze(width=self.width, height=self.height)
         path_finder = PathFinder(maze)
 

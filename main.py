@@ -5,6 +5,28 @@ from src.maze.render_views.cli_view import CliView
 
 
 def main() -> None:
+    """
+    Main function to run the maze game.
+
+    This function initializes the maze configuration and maze engine, sets up the
+    CLI view, and enters the main game loop. In the loop, it continuously renders
+    the maze, processes user commands, and updates the game state until the game
+    is over or the user chooses to quit.
+
+    Steps:
+    1. Get maze configuration.
+    2. Initialize the maze engine with the given configuration.
+    3. Set up the CLI view with the maze and player information.
+    4. Enter the main game loop:
+        - Render the current state of the maze.
+        - Ask the user for a command.
+        - Process the command to update the game state.
+        - If the game is over (stop condition is met), render the final state and exit.
+        - If the user chooses to quit, render the quit message and exit.
+
+    Returns:
+        None
+    """
     maze_config = get_maze_config()
     maze_engine = MazeGenerator(
         width=maze_config.width,
@@ -24,7 +46,7 @@ def main() -> None:
             return
 
         maze_engine.process_moves(command)
-        if maze_engine.maze_state.isStop():
+        if maze_engine.maze_state.is_stop():
             view.render_state(maze_engine.maze_state)
             return
 

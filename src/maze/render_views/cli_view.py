@@ -6,15 +6,38 @@ from src.maze.models.maze import Maze
 from src.maze.models.maze_state import MazeState
 from src.maze.models.position import Position
 
-
 class CliView:
+    """
+    A command-line interface (CLI) view for rendering the maze and interacting with the player.
+
+    Attributes:
+        maze (Maze): The maze instance to be displayed.
+        player (Player): The player instance to be displayed in the maze.
+        enemy (Enemy): The enemy instance to be displayed in the maze.
+    """
 
     def __init__(self, maze: Maze, player: Player, enemy: Enemy) -> None:
+        """
+        Initialize the CLI view with the maze, player, and enemy.
+
+        Args:
+            maze (Maze): The maze instance.
+            player (Player): The player instance.
+            enemy (Enemy): The enemy instance.
+        """
         self.maze = maze
         self.player = player
         self.enemy = enemy
 
     def render_maze(self) -> None:
+        """
+        Render the maze to the CLI, displaying the current state including player, enemy, walls, and the goal.
+
+        Prints:
+            - The number of steps taken by the player.
+            - The distance from the player to the goal.
+            - The maze grid with symbols representing player ('P'), enemy ('E'), walls ('#'), goal ('W'), and empty spaces ('.').
+        """
         distance_to_goal = self.maze.calculate_distance_to_goal(self.player.position)
         print(f"Steps taken: {self.player.steps_taken}")
         print(f"Distance to the goal: {distance_to_goal} cells")
@@ -33,12 +56,29 @@ class CliView:
                     print('.', end=' ')
 
     def ask_command(self) -> Union[bool, str]:
+        """
+        Prompt the user to enter a command for moving or quitting the game.
+
+        Returns:
+            Union[bool, str]: Returns 'False' if the user wants to quit, otherwise returns the command string entered by the user.
+        """
         command = input("Enter move(s) (e.g., 'down 2, left 3') or 'quit' to exit: ")
         if command == 'quit':
             return False
         return command
 
     def render_state(self, maze_state: MazeState) -> None:
+        """
+        Render the current state of the maze game based on the provided maze state.
+
+        Args:
+            maze_state (MazeState): The current state of the maze game.
+
+        Prints:
+            - A win message if the player has won.
+            - A loss message if the player has encountered an enemy or hit a wall.
+            - The current position of the player if the game is ongoing.
+        """
         if maze_state.is_win:
             print("You win!")
         elif maze_state.is_enemy:
@@ -50,4 +90,10 @@ class CliView:
 
 
     def render_quit(self) -> None:
+        """
+        Render a message indicating that the user has quit the game.
+
+        Prints:
+            - A quit message.
+        """
         print("You quit.")
