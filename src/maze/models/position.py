@@ -1,9 +1,8 @@
-from typing import List
-from pydantic import BaseModel
+from pydantic import BaseModel, conint
 
 class Position(BaseModel):
-    x: int
-    y: int
+    x: conint(ge=0)
+    y: conint(ge=0)
 
     def __hash__(self) -> int:
         return hash((self.x, self.y))

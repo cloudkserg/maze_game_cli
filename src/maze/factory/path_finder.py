@@ -1,6 +1,6 @@
 from collections import deque
 from src.maze.models.position import Position
-from src.maze.maze import Maze
+from src.maze.models.maze import Maze
 
 class PathFinder:
     def __init__(self, maze: Maze):

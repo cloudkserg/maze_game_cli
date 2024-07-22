@@ -1,6 +1,8 @@
 from typing import List
+
+from src.maze.factory.path_finder import PathFinder
 from src.maze.models.position import Position
-from src.maze.maze import Maze
+from src.maze.models.maze import Maze
 import random
 
 
@@ -17,7 +19,7 @@ class WallManager:
         while walls_added < self.max_walls and all_positions:
             pos = random.choice(list(all_positions))
             all_positions.remove(pos)
-            self.maze.set_wall(pos.x, pos.y)
+            self.maze.set_full(pos.x, pos.y)
             walls_added += 1
 
     def prune_excess_walls(self, start: Position, end: Position):
