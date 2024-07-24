@@ -24,3 +24,16 @@ venv/
 # Windows
 Thumbs.db
 Desktop.ini
+
+
+# Alembic SQLite database
+alembic/versions/*.db
+
+# Database files
+*.sqlite3
+*.db
+game_state.db
+
+# Alembic specific
+alembic/versions/*.pyc
+alembic/versions/*.pyo

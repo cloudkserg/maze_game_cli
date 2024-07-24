@@ -6,6 +6,5 @@ python-dotenv
 flask
 peewee
 websockets
-json
-asyncio
-threading
+alembic
+sqlalchemy

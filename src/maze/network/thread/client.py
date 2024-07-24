@@ -14,14 +14,24 @@ async def game_client():
                 elif data['action'] == "win":
                     print(f"Player {data['player']} wins!")
                     return
+                elif data['action'] == "saved":
+                    print("Game state saved successfully.")
+                elif data['action'] == "restored":
+                    print(f"Game state restored. Your position: {data['positions'][0]}, Opponent's position: {data['positions'][1]}")
+                elif data['action'] == "no_save":
+                    print("No saved game state found.")
 
-        async def send_moves():
+        async def send_commands():
             while True:
-                move = input("Enter move (up, down, left, right): ")
-                if move in ["up", "down", "left", "right"]:
-                    await websocket.send(json.dumps({"move": move}))
+                command = input("Enter command (move, save, restore): ")
+                if command == "save":
+                    await websocket.send(json.dumps({"action": "save"}))
+                elif command == "restore":
+                    await websocket.send(json.dumps({"action": "restore"}))
+                elif command in ["up", "down", "left", "right"]:
+                    await websocket.send(json.dumps({"action": "move", "move": command}))
 
-        await asyncio.gather(receive_messages(), send_moves())
+        await asyncio.gather(receive_messages(), send_commands())
 
 if __name__ == "__main__":
     asyncio.run(game_client())
